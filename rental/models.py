@@ -3,8 +3,8 @@ from django.urls import reverse
 import uuid
 
 class Category(models.Model):
-    """Model representing a book genre."""
-    name = models.CharField(
+
+    type = models.CharField(
         max_length=200,
         unique=True,
         help_text="Enter the category of the UAV"
@@ -12,7 +12,7 @@ class Category(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return self.name
+        return self.type
 
     def get_absolute_url(self):
         """Returns the url to access a particular category instance."""
@@ -32,11 +32,16 @@ class Uav(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return self.title
+        return self.model
 
     def get_absolute_url(self):
         """Returns the URL to access a detail record for this UAV."""
         return reverse('uav-detail', args=[str(self.id)])
+    
+    def display_category(self):
+        return ', '.join(category.type for category in self.category.all()[:3])
+
+    display_category.short_description = 'Category'
 
 class UavInstance(models.Model):
 
@@ -65,7 +70,7 @@ class UavInstance(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.id} ({self.book.title})'
+        return f'{self.id} ({self.Uav.model})'
     
 class Brand(models.Model):
     """Model representing an author."""
