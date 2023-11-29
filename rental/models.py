@@ -73,7 +73,7 @@ class UavInstance(models.Model):
         return f'{self.id} ({self.Uav.model})'
     
 class Brand(models.Model):
-    """Model representing an author."""
+    """Model representing an brand."""
     brand_name = models.CharField(max_length=100)
 
     class Meta:

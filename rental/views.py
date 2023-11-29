@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views import generic
 
 from .models import Uav, Brand, UavInstance, Category
 
@@ -21,3 +22,10 @@ def index(request):
     }
 
     return render(request, 'index.html', context=context)
+
+class UavListView(generic.ListView):
+    model = Uav
+    
+class UavDetailView(generic.DetailView):
+    model = Uav
+

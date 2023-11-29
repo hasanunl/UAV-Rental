@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>UAV List</h1>
+  {% if uav_list %}
+    <ul>
+      {% for uav in uav_list %}
+      <li>
+        <a href="{{ uav.get_absolute_url }}">{{ uav.model }}</a>
+        ({{uav.brand}})
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no UAVs in the fleet.</p>
+  {% endif %}
+{% endblock %}
+s

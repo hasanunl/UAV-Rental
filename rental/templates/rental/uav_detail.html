@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Model: {{ uav.model }}</h1>
+
+  <p><strong>Brand:</strong> <a href="">{{ uav.brand }}</a></p>
+  <p><strong>Category:</strong> {{ uav.category.all|join:", "}}</p>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Units</h4>
+
+    {% for unit in uav.uavinstance_set.all %}
+      <hr />
+      <p
+        class="{% if unit.rental_status == 'a' %}text-success{% elif unit.rental_status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+        {{ unit.get_status_display }}
+      </p>
+      {% if unit.status != 'a' %}
+        <p><strong>Date to be returned:</strong> {{ unit.return_date }}</p>
+      {% endif %}
+      <p class="text-muted"><strong>Id:</strong> {{ unit.id }}</p>
+    {% endfor %}
+  </div>
+{% endblock %}
