@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Renew: {{ uav_instance.uav.model }}</h1>
+  <p>Renter: {{ uav_instance.renter }}</p>
+  <p {% if uav_instance.is_overdue %} class="text-danger"{% endif %} >Return date: {{ uav_instance.return_date }}</p>
+
+  <form action="" method="post">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}

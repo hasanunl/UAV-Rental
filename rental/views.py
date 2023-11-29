@@ -40,3 +40,61 @@ class RentedUavsByUserListView(LoginRequiredMixin,generic.ListView):
             .filter(status__exact='r')
             .order_by('return_date')
         )
+
+import datetime
+
+from django.contrib.auth.decorators import login_required, permission_required
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+from rental.forms import RenewUavForm
+
+@login_required
+@permission_required('rental.can_mark_returned', raise_exception=True)
+def renew_uav_member(request, pk):
+    uav_instance = get_object_or_404(UavInstance, pk=pk)
+
+    if request.method == 'POST':
+
+        form = RenewUavForm(request.POST)
+
+        if form.is_valid():
+            uav_instance.return_Date = form.cleaned_data['renewal_date']
+            uav_instance.save()
+
+            return HttpResponseRedirect(reverse('all-rented'))
+
+    else:
+        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=4)
+        form = RenewUavForm(initial={'renewal_date': proposed_renewal_date})
+
+    context = {
+        'form': form,
+        'uav_instance': uav_instance,
+    }
+
+    return render(request, 'rental/uav_renew_member.html', context)
+
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import UavInstance
+
+class UavInstanceCreate(CreateView):
+    model = UavInstance
+    fields = ['Uav', 'return_date', 'renter', 'status']
+    success_url = reverse_lazy('uavs')
+    permission_required = 'rental.add_uavinstance'
+
+
+class UavInstanceUpdate(UpdateView):
+    model = UavInstance
+    fields = ['Uav', 'return_date', 'renter', 'status']
+    success_url = reverse_lazy('uavs')
+    permission_required = 'rental.change_uavinstance'
+
+
+class UavInstanceDelete(DeleteView):
+    model = UavInstance
+    success_url = reverse_lazy('uavs')
+    permission_required = 'rental.delete_uavinstance'

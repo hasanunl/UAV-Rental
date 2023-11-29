@@ -19,6 +19,17 @@
         <p><strong>Date to be returned:</strong> {{ unit.return_date }}</p>
       {% endif %}
       <p class="text-muted"><strong>Id:</strong> {{ unit.id }}</p>
+      {% if perms.catalog.change_bookinstance or perms.catalog.delete_bookinstance %}
+      <hr>
+      <ul>
+        {% if perms.rental.change_uavinstance %}
+        <li><a href="{% url 'uavinstance-update' unit.id %}">Update UavInstance</a></li>
+        {% endif %}
+        {% if perms.catalog.delete_bookinstance %}
+        <li><a href="{% url 'uavinstance-delete' unit.id %}">Delete UavInstance</a></li>
+        {% endif %}
+      </ul>
+      {% endif %}
     {% endfor %}
   </div>
 {% endblock %}

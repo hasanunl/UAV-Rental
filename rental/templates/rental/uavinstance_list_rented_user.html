@@ -9,6 +9,20 @@
       {% for uavinst in uavinstance_list %}
       <li class="{% if uavinst.is_overdue %}text-danger{% endif %}">
         <a href="{% url 'uav-detail' uavinst.Uav.pk %}">{{ uavinst.Uav.model }}</a> ({{ uavinst.return_date }})
+        {% if perms.rental.can_mark_returned %}- 
+        <a href="{% url 'renew-uav-member' uavinst.id %}">Renew</a>
+        {% endif %}
+        {% if perms.catalog.change_bookinstance or perms.catalog.delete_bookinstance %}
+        <hr>
+        <ul>
+          {% if perms.rental.change_uavinstance %}
+          <li><a href="{% url 'uavinstance-update' uavinst.id %}">Update UavInstance</a></li>
+          {% endif %}
+          {% if perms.catalog.delete_bookinstance %}
+          <li><a href="{% url 'uavinstance-delete' uavinst.id %}">Delete UavInstance</a></li>
+          {% endif %}
+        </ul>
+        {% endif %}
       </li>
       {% endfor %}
     </ul>

@@ -30,6 +30,9 @@
             {% else %}
               <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
             {% endif %}
+            {% if perms.rental.add_uavinstance %}
+              <li><a href="{% url 'uavinstance-create' %}">Create UAV</a></li>
+            {% endif %}
             </ul>
           {% endblock %}
         </div>
