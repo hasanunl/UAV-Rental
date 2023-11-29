@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Rented UAVs</h1>
+
+    {% if uavinstance_list %}
+    <ul>
+
+      {% for uavinst in uavinstance_list %}
+      <li class="{% if uavinst.is_overdue %}text-danger{% endif %}">
+        <a href="{% url 'uav-detail' uavinst.Uav.pk %}">{{ uavinst.Uav.model }}</a> ({{ uavinst.return_date }})
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>There are no UAVs rented.</p>
+    {% endif %}
+{% endblock %}

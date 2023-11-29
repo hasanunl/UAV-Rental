@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 import uuid
+from django.conf import settings
+from datetime import date
 
 class Category(models.Model):
 
@@ -49,6 +51,8 @@ class UavInstance(models.Model):
                           help_text="THe unique ID for the rental UAV")
     Uav = models.ForeignKey('UAV', on_delete=models.RESTRICT, null=True)
 
+    renter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+
     return_date = models.DateField(null=True, blank=True)
 
     RENTAL_STATUS = (
@@ -67,10 +71,15 @@ class UavInstance(models.Model):
 
     class Meta:
         ordering = ['return_date']
+        permissions = (("can_mark_returned", "Set UAV as returned"),)
 
     def __str__(self):
-        """String for representing the Model object."""
         return f'{self.id} ({self.Uav.model})'
+    
+    @property
+    def is_overdue(self):
+        return bool(self.return_date and date.today() > self.return_date)
+
     
 class Brand(models.Model):
     """Model representing an brand."""

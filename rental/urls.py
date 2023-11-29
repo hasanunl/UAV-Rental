@@ -7,3 +7,6 @@ urlpatterns = [
     path('uav/<int:pk>', views.UavDetailView.as_view(), name='uav-detail'),
 ]
 
+urlpatterns += [
+    path('myuavs/', views.RentedUavsByUserListView.as_view(), name='my-rented'),
+]

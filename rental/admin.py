@@ -24,6 +24,7 @@ class UavAdmin(admin.ModelAdmin):
 
 @admin.register(UavInstance)
 class UavInstanceAdmin(admin.ModelAdmin):
+    list_display = ('Uav', 'status', 'renter', 'return_date', 'id')
     list_filter = ('status', 'return_date')
 
     fieldsets = (
@@ -31,6 +32,6 @@ class UavInstanceAdmin(admin.ModelAdmin):
             'fields': ('Uav', 'id')
         }),
         ('Availability', {
-            'fields': ('status', 'return_date')
+            'fields': ('status', 'return_date', 'renter')
         }),
     )

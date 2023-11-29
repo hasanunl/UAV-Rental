@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Uav, Brand, UavInstance, Category
 
@@ -29,3 +30,13 @@ class UavListView(generic.ListView):
 class UavDetailView(generic.DetailView):
     model = Uav
 
+class RentedUavsByUserListView(LoginRequiredMixin,generic.ListView):
+    model = UavInstance
+    template_name = 'rental/uavinstance_list_rented_user.html'
+
+    def get_queryset(self):
+        return (
+            UavInstance.objects.filter(renter=self.request.user)
+            .filter(status__exact='r')
+            .order_by('return_date')
+        )
