@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>UAV Rental Home</h1>
+  <p>
+    Welcome to UAV Rental!</p>
+  <h2>Dynamic content</h2>
+  <p>Information about our current fleet:</p>
+  <ul>
+    <li><strong>UAV Models:</strong> {{ num_uav_models }}</li>
+    <li><strong>UAVs:</strong> {{ num_instances }}</li>
+    <li><strong>Available UAVs:</strong> {{ num_instances_available }}</li>
+    <li><strong>Brands:</strong> {{ num_brands }}</li>
+  </ul>
+{% endblock %}
