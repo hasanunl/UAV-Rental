@@ -63,7 +63,7 @@ def renew_uav_member(request, pk):
             uav_instance.return_Date = form.cleaned_data['renewal_date']
             uav_instance.save()
 
-            return HttpResponseRedirect(reverse('all-rented'))
+            return HttpResponseRedirect(reverse_lazy('uavs'))
 
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=4)
