@@ -23,10 +23,10 @@
       <hr>
       <ul>
         {% if perms.rental.change_uavinstance %}
-        <li><a href="{% url 'uavinstance-update' unit.id %}">Update UavInstance</a></li>
+        <li><a href="{% url 'uavinstance-update' unit.id %}">Update Uav Rental</a></li>
         {% endif %}
         {% if perms.catalog.delete_bookinstance %}
-        <li><a href="{% url 'uavinstance-delete' unit.id %}">Delete UavInstance</a></li>
+        <li><a href="{% url 'uavinstance-delete' unit.id %}">Delete Uav Rental</a></li>
         {% endif %}
       </ul>
       {% endif %}
